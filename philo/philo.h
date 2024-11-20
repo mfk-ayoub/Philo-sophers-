@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:24:05 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/20 07:18:31 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/20 07:58:46 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct parmaters
 	long	time_to_eat;
 	long	nb_of_meals;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t print_status;
+	pthread_mutex_t lock_flag;
 	bool	flag;
 	
 }			t_parmaters;
