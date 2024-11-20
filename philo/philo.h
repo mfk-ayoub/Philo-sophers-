@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:24:05 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/20 05:45:21 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/20 07:18:31 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ typedef struct parmaters
 	pthread_mutex_t	*forks;
 	bool	flag;
 	
-	
-
 }			t_parmaters;
+
 typedef struct s_philos
 {
 	int 		index;
@@ -50,5 +49,10 @@ int			ft_isdigit(int index);
 long		long ft_atoi(char *str);
 int			check_parmaters(int ac,char **av);
 void		init_parmaters(t_parmaters *parmaters, int ac, char **av);
-int	start_program(t_parmaters *parmaters,t_philos **philos);
+int			start_program(t_parmaters *parmaters,t_philos **philos);
+int			allocate(t_parmaters *parmaters,t_philos **philos);
+int			run_program(t_parmaters *parmaters,t_philos *philos);
+int			run_program(t_parmaters *parmaters,t_philos *philos);
+void		*philos_routine(void *arg);
+
 #endif

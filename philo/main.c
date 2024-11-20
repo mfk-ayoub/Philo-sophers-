@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:37:36 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/20 05:45:37 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/20 07:02:08 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ int	main(int ac, char **av)
 		init_parmaters(&parmaters, ac, av);
 		if (start_program(&parmaters,&philos) == -1)
 			return (1);
-		free(philos);
-		free(parmaters.forks);
+		if (run_program(&parmaters,philos) == -1)
+			return (1);
+		(free(philos),free(parmaters.forks));
 		return (0);
 	}
 	else
