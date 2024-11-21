@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:24:05 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/21 09:22:43 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:59:09 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philos
 {
 	int				index;
 	int				meals_eat;
+	long long 		last_meal;
 	pthread_t		id;
 	pthread_mutex_t	first_fork;
 	pthread_mutex_t	second_fork;
@@ -58,5 +59,6 @@ int					run_program(t_parmaters *parmaters, t_philos *philos);
 void				*philos_routine(void *arg);
 long long			current_time(void);
 void				print_Status(t_philos *philos, char *msg);
+int					one_philo(t_parmaters *parmaters);
 
 #endif

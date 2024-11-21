@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 07:09:45 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/21 09:28:29 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:35:38 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	eating(t_philos *philos)
 	print_Status(philos, "has taken a fork");
 	pthread_mutex_unlock(&philos->second_fork);
 	print_Status(philos, "eating");
+	philos->last_meal = current_time();
 	usleep(philos->parmaters->time_to_eat * 1000);
 	return (0);
 }
