@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:09:59 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/20 07:16:27 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:03:54 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_parmaters(t_parmaters *parmaters, int ac, char **av)
 	parmaters->time_to_eat = ft_atoi(av[3]);
 	parmaters->time_to_sleep = ft_atoi(av[4]);
 	parmaters->flag = true;
+	parmaters->start_time = current_time();
 	if (ac == 6)
 		parmaters->nb_of_meals = ft_atoi(av[5]);
 	else
@@ -27,20 +28,23 @@ void	init_parmaters(t_parmaters *parmaters, int ac, char **av)
 }
 
 
-int	start_program(t_parmaters *parmaters,t_philos **philos)
+int	start_program(t_parmaters *param, t_philos **philos)
 {
 	int			i;
-
+	int			flag;
+	
+	flag = 1;
 	i = 0;
-	if (allocate(parmaters,philos) == -1)
+	if (allocate(param,philos) == -1)
 		return (write(2, "alloction errors\n", 18), -1);
-	while (i < parmaters->nb_of_philos)
+	while (i < param->nb_of_philos)
     {
         (*philos)[i].index = i + 1;
         (*philos)[i].meals_eat = 0;
-        (*philos)[i].parmaters = parmaters;
-        (*philos)[i].r_fork = parmaters->forks[i];
-        (*philos)[i].l_fork = parmaters->forks[(i + 1) % parmaters->nb_of_philos];
+        (*philos)[i].parmaters = param;
+		(*philos)[i].first_fork = param->forks[(i + flag) % param->nb_of_philos];
+		(*philos)[i].second_fork = param->forks[(i + !flag) % param->nb_of_philos];
+		flag = !flag;
         i++;
     }
 	return (0);
@@ -55,6 +59,13 @@ int		run_program(t_parmaters *parmaters,t_philos *philos)
 	{
 		if (pthread_create(&philos[i].id, NULL, philos_routine, (void *)&philos[i]))	
 			return (write(2, "thread create error\n", 21), -1);;
+		i++;
+	}
+	i = 0;
+	while (i < parmaters->nb_of_philos)
+	{
+		if (pthread_join(philos[i].id, NULL))
+			return (write(2, "join error\n", 12), -1);;
 		i++;
 	}
 	return (0);

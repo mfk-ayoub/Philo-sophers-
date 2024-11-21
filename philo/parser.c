@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:10:57 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/20 05:49:43 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:05:16 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,28 @@ int check_parmaters(int ac,char **av)
 	return (0);
 }
 
-int allocate(t_parmaters *parmaters,t_philos **philos)
+int allocate(t_parmaters *param,t_philos **philos)
 {
 	int i;
 
 	i = 0;
 	
-	*philos = (t_philos *)malloc(sizeof(t_philos) * parmaters->nb_of_philos);
+	*philos = (t_philos *)malloc(sizeof(t_philos) * param->nb_of_philos);
 	if (!*philos)
 		return (-1);
-	parmaters->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * parmaters->nb_of_philos);
-    if (!parmaters->forks)
+	param->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (param->nb_of_philos));
+    if (!param->forks)
 		return (free(*philos),-1);
 
-	while (i < parmaters->nb_of_meals)
+	while (i < param->nb_of_philos)
 	{
-		if (!!pthread_mutex_init(&parmaters->forks[i], NULL))
+		if (!!pthread_mutex_init(&param->forks[i], NULL))
 			return (write(2, "mutex error\n", 13), -1);
 		i++;
 	}
+	if (!!pthread_mutex_init(&param->print_status, NULL))
+			return (write(2, "mutex error\n", 13), -1);
+	if (!!pthread_mutex_init(&param->lock_flag, NULL))
+			return (write(2, "mutex error\n", 13), -1);
 	return (0);
 }
