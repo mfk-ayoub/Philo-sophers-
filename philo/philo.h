@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:24:05 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/21 09:59:09 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/22 05:35:58 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ void				*philos_routine(void *arg);
 long long			current_time(void);
 void				print_Status(t_philos *philos, char *msg);
 int					one_philo(t_parmaters *parmaters);
-
+int					check_if_death(t_philos *philos);
 #endif

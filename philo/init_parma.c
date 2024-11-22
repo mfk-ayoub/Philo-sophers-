@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:09:59 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/21 10:09:57 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/22 06:37:44 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	start_program(t_parmaters *param, t_philos **philos)
 		(*philos)[i].index = i + 1;
 		(*philos)[i].meals_eat = 0;
 		(*philos)[i].parmaters = param;
-		(*philos)[i].last_meal = current_time();
+		(*philos)[i].last_meal = 0;
 		(*philos)[i].first_fork = param->forks[(i + flag)
 			% param->nb_of_philos];
 		(*philos)[i].second_fork = param->forks[(i + !flag)
@@ -61,7 +61,6 @@ int	run_program(t_parmaters *parmaters, t_philos *philos)
 		if (pthread_create(&philos[i].id, NULL, philos_routine,
 				(void *)&philos[i]))
 			return (write(2, "thread create error\n", 21), -1);
-		;
 		i++;
 	}
 	i = 0;

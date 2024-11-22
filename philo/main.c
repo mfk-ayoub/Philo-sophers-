@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:37:36 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/21 10:11:56 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/22 05:35:49 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 void	kill_program(t_parmaters *parmaters, t_philos *philos)
 {
-	int	i;
+	 int i = 0;
 
-	i = -1;
-	while (++i < parmaters->nb_of_philos)
-		pthread_mutex_destroy(&parmaters->forks[i]);
-	pthread_mutex_destroy(&philos->first_fork);
-	pthread_mutex_destroy(&philos->second_fork);
-	pthread_mutex_destroy(&parmaters->print_status);
-	pthread_mutex_destroy(&parmaters->lock_flag);
-	free(philos);
+    while (i < parmaters->nb_of_philos)
+    {
+        pthread_mutex_destroy(&parmaters->forks[i]);
+        i++;
+    }
+    pthread_mutex_destroy(&parmaters->print_status);
+    pthread_mutex_destroy(&parmaters->lock_flag);
+
+    free(parmaters->forks);
+    free(philos);
 }
 
 int	main(int ac, char **av)
@@ -42,7 +44,7 @@ int	main(int ac, char **av)
 		if (start_program(&parmaters, &philos) == -1)
 			return (1);
 		if (run_program(&parmaters, philos) == -1)
-			return (1);
+			return(kill_program(&parmaters, philos),-1);
 		kill_program(&parmaters, philos);
 		return (0);
 	}
