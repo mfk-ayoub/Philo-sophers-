@@ -12,10 +12,6 @@
 
 #include "philo.h"
 
-
-	
-
-
 int	eating(t_philos *philos)
 {
 	pthread_mutex_lock(&philos->first_fork);

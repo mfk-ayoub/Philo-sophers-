@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 23:44:56 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/21 09:27:48 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/21 10:26:29 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ long long	current_time(void)
 	gettimeofday(&current_time, NULL);
 	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 }
+
 void	print_Status(t_philos *philos, char *msg)
 {
 	long long date_start;

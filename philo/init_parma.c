@@ -24,51 +24,53 @@ void	init_parmaters(t_parmaters *parmaters, int ac, char **av)
 		parmaters->nb_of_meals = ft_atoi(av[5]);
 	else
 		parmaters->nb_of_meals = -1;
-	
 }
-
 
 int	start_program(t_parmaters *param, t_philos **philos)
 {
-	int			i;
-	int			flag;
-	
+	int	i;
+	int	flag;
+
 	flag = 1;
 	i = 0;
-	if (allocate(param,philos) == -1)
+	if (allocate(param, philos) == -1)
 		return (write(2, "alloction errors\n", 18), -1);
 	while (i < param->nb_of_philos)
-    {
-        (*philos)[i].index = i + 1;
-        (*philos)[i].meals_eat = 0;
-        (*philos)[i].parmaters = param;
+	{
+		(*philos)[i].index = i + 1;
+		(*philos)[i].meals_eat = 0;
+		(*philos)[i].parmaters = param;
 		(*philos)[i].last_meal = current_time();
-		(*philos)[i].first_fork = param->forks[(i + flag) % param->nb_of_philos];
-		(*philos)[i].second_fork = param->forks[(i + !flag) % param->nb_of_philos];
+		(*philos)[i].first_fork = param->forks[(i + flag)
+			% param->nb_of_philos];
+		(*philos)[i].second_fork = param->forks[(i + !flag)
+			% param->nb_of_philos];
 		flag = !flag;
-        i++;
-    }
+		i++;
+	}
 	return (0);
 }
 
-int		run_program(t_parmaters *parmaters,t_philos *philos)
+int	run_program(t_parmaters *parmaters, t_philos *philos)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < parmaters->nb_of_philos)
 	{
-		if (pthread_create(&philos[i].id, NULL, philos_routine, (void *)&philos[i]))	
-			return (write(2, "thread create error\n", 21), -1);;
+		if (pthread_create(&philos[i].id, NULL, philos_routine,
+				(void *)&philos[i]))
+			return (write(2, "thread create error\n", 21), -1);
+		;
 		i++;
 	}
 	i = 0;
 	while (i < parmaters->nb_of_philos)
 	{
 		if (pthread_join(philos[i].id, NULL))
-			return (write(2, "join error\n", 12), -1);;
+			return (write(2, "join error\n", 12), -1);
+		;
 		i++;
 	}
 	return (0);
-	
 }
