@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:09:59 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/22 06:37:44 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/23 10:17:00 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ void	init_parmaters(t_parmaters *parmaters, int ac, char **av)
 int	start_program(t_parmaters *param, t_philos **philos)
 {
 	int	i;
-	int	flag;
 
-	flag = 1;
 	i = 0;
 	if (allocate(param, philos) == -1)
 		return (write(2, "alloction errors\n", 18), -1);
@@ -40,12 +38,9 @@ int	start_program(t_parmaters *param, t_philos **philos)
 		(*philos)[i].index = i + 1;
 		(*philos)[i].meals_eat = 0;
 		(*philos)[i].parmaters = param;
-		(*philos)[i].last_meal = 0;
-		(*philos)[i].first_fork = param->forks[(i + flag)
-			% param->nb_of_philos];
-		(*philos)[i].second_fork = param->forks[(i + !flag)
-			% param->nb_of_philos];
-		flag = !flag;
+		(*philos)[i].last_meal = current_time();
+		(*philos)[i].first_fork = &param->forks[i];
+		(*philos)[i].second_fork = &param->forks[(i + 1) % param->nb_of_philos];
 		i++;
 	}
 	return (0);
@@ -64,11 +59,10 @@ int	run_program(t_parmaters *parmaters, t_philos *philos)
 		i++;
 	}
 	i = 0;
-	while (i < parmaters->nb_of_philos)
+  while (i < parmaters->nb_of_philos)
 	{
 		if (pthread_join(philos[i].id, NULL))
 			return (write(2, "join error\n", 12), -1);
-		;
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 09:48:01 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/21 10:11:16 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/23 10:33:27 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	*one_routine(void *arg)
 
 	start_time = current_time();
 	philos = (t_philos *)arg;
-	pthread_mutex_lock(&philos->first_fork);
+	pthread_mutex_lock(philos->first_fork);
 	printf("%lld %d has taken a fork\n", current_time() - start_time,
 		philos->index);
-	usleep(philos->parmaters->time_to_die * 1000);
+	ft_usleep(philos->parmaters->time_to_die,philos);
 	printf("%lld %d has died\n", current_time() - start_time, philos->index);
-	pthread_mutex_unlock(&philos->first_fork);
+	pthread_mutex_unlock(philos->first_fork);
 	return (NULL);
 }
 
@@ -46,6 +46,7 @@ int	one_philo(t_parmaters *parmaters)
 		(free(philos), free(parmaters->forks));
 		return (write(2, "mutex error\n", 13), -1);
 	}
+	philos->first_fork = parmaters->forks;
 	pthread_create(&id, NULL, one_routine, (void *)philos);
 	pthread_join(id, NULL);
 	pthread_mutex_destroy(parmaters->forks);

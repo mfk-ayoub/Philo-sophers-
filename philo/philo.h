@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:24:05 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/22 05:35:58 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/23 10:30:29 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ typedef struct s_philos
 	int				meals_eat;
 	long long 		last_meal;
 	pthread_t		id;
-	pthread_mutex_t	first_fork;
-	pthread_mutex_t	second_fork;
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
 	t_parmaters		*parmaters;
 
 }					t_philos;
 
+void	ft_usleep(long sleeping_time,t_philos *philos);
 int					ft_isdigit(int index);
 long long			ft_atoi(char *str);
 int					check_parmaters(int ac, char **av);

@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 23:44:56 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/22 05:29:36 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/23 10:17:08 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ long long	current_time(void)
 void print_Status(t_philos *philos, char *msg)
 {
     pthread_mutex_lock(&philos->parmaters->print_status);
+    pthread_mutex_lock(&philos->parmaters->lock_flag);
     if (philos->parmaters->flag)
         printf("%lld %d %s\n", current_time() - philos->parmaters->start_time, philos->index, msg);
     pthread_mutex_unlock(&philos->parmaters->print_status);
+    pthread_mutex_unlock(&philos->parmaters->lock_flag);
 }
