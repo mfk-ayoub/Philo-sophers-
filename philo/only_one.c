@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 09:48:01 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/23 10:33:27 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/24 08:34:59 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*one_routine(void *arg)
 	pthread_mutex_lock(philos->first_fork);
 	printf("%lld %d has taken a fork\n", current_time() - start_time,
 		philos->index);
-	ft_usleep(philos->parmaters->time_to_die, philos);
+	usleep(philos->parmaters->time_to_die * 1000);
 	printf("%lld %d has died\n", current_time() - start_time, philos->index);
 	pthread_mutex_unlock(philos->first_fork);
 	return (NULL);
