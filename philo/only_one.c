@@ -22,7 +22,7 @@ void	*one_routine(void *arg)
 	pthread_mutex_lock(philos->first_fork);
 	printf("%lld %d has taken a fork\n", current_time() - start_time,
 		philos->index);
-	ft_usleep(philos->parmaters->time_to_die,philos);
+	ft_usleep(philos->parmaters->time_to_die, philos);
 	printf("%lld %d has died\n", current_time() - start_time, philos->index);
 	pthread_mutex_unlock(philos->first_fork);
 	return (NULL);

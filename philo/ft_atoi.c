@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:36:32 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/19 05:33:11 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/24 01:04:00 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static bool	is_space(char c)
 
 long long	ft_atoi(char *str)
 {
-	long long ans;
-	long long result;
+	long long	ans;
+	long long	result;
 
 	ans = 0;
 	result = 1;

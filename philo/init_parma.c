@@ -48,7 +48,7 @@ int	start_program(t_parmaters *param, t_philos **philos)
 
 int	run_program(t_parmaters *parmaters, t_philos *philos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < parmaters->nb_of_philos)
@@ -59,7 +59,7 @@ int	run_program(t_parmaters *parmaters, t_philos *philos)
 		i++;
 	}
 	i = 0;
-  while (i < parmaters->nb_of_philos)
+	while (i < parmaters->nb_of_philos)
 	{
 		if (pthread_join(philos[i].id, NULL))
 			return (write(2, "join error\n", 12), -1);

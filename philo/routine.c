@@ -6,104 +6,106 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 07:09:45 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/23 10:33:13 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/24 05:20:52 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	check_if_death(t_philos *philos)
+{
+	long long	time_die;
 
-void	ft_usleep(long sleeping_time, t_philos *philos)
-{
-	long	start_time;
-
-	start_time = current_time();
-	while (current_time() - start_time < sleeping_time)
-    {
-        if (check_if_death(philos) == -1)
-            break;
-		usleep(sleeping_time / 10000);
-    }
-}
-int check_if_death(t_philos *philos)
-{
-    pthread_mutex_lock(&philos->parmaters->lock_flag);
-    //printf("philo: %d, address: %p\n", philos->index, &philos->parmaters->lock_flag);
-    if (!philos->parmaters->flag)
-    {
-        pthread_mutex_unlock(&philos->parmaters->lock_flag);
-        return (-1);
-    }
-  /*printf("l = %lld\n c - l = %lld\n t_d = %ld\n", philos->last_meal, current_time() - philos->last_meal, philos->parmaters->time_to_die);*/
-    if (current_time() - philos->last_meal > philos->parmaters->time_to_die)
-    {
-        philos->parmaters->flag = false;
-        pthread_mutex_unlock(&philos->parmaters->lock_flag);
-        printf("%lld %d died\n", current_time() - philos->parmaters->start_time, philos->index);
-        return (-1);
-    }
-    pthread_mutex_unlock(&philos->parmaters->lock_flag);
-    return (0);
-}
-int eating(t_philos *philos)
-{
-    if (philos->index % 2 == 1)
-    {
-        usleep(100);
-        pthread_mutex_lock(philos->second_fork);
-        if (check_if_death(philos) == -1)
-        return (pthread_mutex_unlock(philos->second_fork), -1);
-        print_Status(philos, "has taken a fork");
-        pthread_mutex_lock(philos->first_fork);
-        if (check_if_death(philos) == -1)
-        {
-            pthread_mutex_unlock(philos->first_fork);
-            return (pthread_mutex_unlock(philos->second_fork), -1);
-        }
-        print_Status(philos, "has taken a fork");
-    }
-    else
-    {
-        pthread_mutex_lock(philos->first_fork);
-        if (check_if_death(philos) == -1)
-            return (pthread_mutex_unlock(philos->first_fork), -1);
-        print_Status(philos, "has taken a fork");
-        pthread_mutex_lock(philos->second_fork);
-        if (check_if_death(philos) == -1)
-        {
-            pthread_mutex_unlock(philos->first_fork);
-            return (pthread_mutex_unlock(philos->second_fork), -1);
-        }
-        print_Status(philos, "has taken a fork");
-    }
-    print_Status(philos, "eating");
-    philos->meals_eat++;
-    philos->last_meal = current_time();
-    ft_usleep(philos->parmaters->time_to_eat,philos);
-    pthread_mutex_unlock(philos->first_fork);
-    pthread_mutex_unlock(philos->second_fork);
-    return (0);
+	time_die = current_time() - philos->parmaters->start_time;
+	pthread_mutex_lock(&philos->parmaters->lock_flag);
+	if (!philos->parmaters->flag)
+	{
+		pthread_mutex_unlock(&philos->parmaters->lock_flag);
+		return (-1);
+	}
+	if (current_time() - philos->last_meal > philos->parmaters->time_to_die)
+	{
+		philos->parmaters->flag = false;
+		pthread_mutex_unlock(&philos->parmaters->lock_flag);
+		printf(ORANGE "% lld " RESET "%d \033[1;31m died\n", time_die,
+			philos->index);
+		return (-1);
+	}
+	pthread_mutex_unlock(&philos->parmaters->lock_flag);
+	return (0);
 }
 
-
-
-
-void *philos_routine(void *arg)
+int	reverse_forks(t_philos *philos)
 {
-    t_philos *philos;
-	
+	usleep(100);
+	pthread_mutex_lock(philos->second_fork);
+	if (check_if_death(philos) == -1)
+		return (pthread_mutex_unlock(philos->second_fork), -1);
+	print_status(philos, "\033[1;33m has taken a fork\033[0m");
+	pthread_mutex_lock(philos->first_fork);
+	if (check_if_death(philos) == -1)
+	{
+		pthread_mutex_unlock(philos->first_fork);
+		return (pthread_mutex_unlock(philos->second_fork), -1);
+	}
+	return (0);
+}
+
+int	take_forks(t_philos *philos)
+{
+	if (philos->index % 2 == 1)
+	{
+		if (reverse_forks(philos) == -1)
+			return (-1);
+	}
+	else
+	{
+		pthread_mutex_lock(philos->first_fork);
+		if (check_if_death(philos) == -1)
+			return (pthread_mutex_unlock(philos->first_fork), -1);
+		print_status(philos, "\033[1;33m has taken a fork\033[0m");
+		pthread_mutex_lock(philos->second_fork);
+		if (check_if_death(philos) == -1)
+		{
+			pthread_mutex_unlock(philos->first_fork);
+			return (pthread_mutex_unlock(philos->second_fork), -1);
+		}
+	}
+	print_status(philos, "\033[1;33m has taken a fork\033[0m");
+	return (0);
+}
+
+int	eating(t_philos *philos)
+{
+	if (take_forks(philos) == -1)
+		return (-1);
+	print_status(philos, "\033[1;35m eating\033[0m");
+	philos->meals_eat++;
+	philos->last_meal = current_time();
+	ft_usleep(philos->parmaters->time_to_eat, philos);
+	pthread_mutex_unlock(philos->first_fork);
+	pthread_mutex_unlock(philos->second_fork);
+	return (0);
+}
+
+void	*philos_routine(void *arg)
+{
+	t_philos	*philos;
+
 	philos = (t_philos *)arg;
-    while (1)
-    {
-        if(philos->parmaters->nb_of_meals != -1 && philos->meals_eat >= philos->parmaters->nb_of_meals)
-            return(NULL);
-        if (eating(philos) == -1)
-            return (NULL);
-        if(philos->parmaters->nb_of_meals != -1 && philos->meals_eat >= philos->parmaters->nb_of_meals)
-            return(NULL);
-        print_Status(philos, "sleeping");
-        ft_usleep(philos->parmaters->time_to_sleep,philos);
-        print_Status(philos, "thinking");
-    }
-    return (NULL);
+	while (1)
+	{
+		if (philos->parmaters->nb_of_meals != -1
+			&& philos->meals_eat >= philos->parmaters->nb_of_meals)
+			return (NULL);
+		if (eating(philos) == -1)
+			return (NULL);
+		if (philos->parmaters->nb_of_meals != -1
+			&& philos->meals_eat >= philos->parmaters->nb_of_meals)
+			return (NULL);
+		print_status(philos, "\033[1;32m sleeping\033[0m");
+		ft_usleep(philos->parmaters->time_to_sleep, philos);
+		print_status(philos, "\033[1;34m thinking\033[0m");
+	}
+	return (NULL);
 }
