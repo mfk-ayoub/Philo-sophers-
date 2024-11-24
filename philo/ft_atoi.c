@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:36:32 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/24 01:04:00 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/24 05:36:55 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ long long	ft_atoi(char *str)
 		ans = (ans * 10) + (*str - '0');
 		str++;
 	}
-	if (ans > INT_MAX)
+	if (ans >= INT_MAX)
 		return (-1);
 	return (result * ans);
 }
