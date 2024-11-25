@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 07:09:45 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/24 08:25:36 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/24 10:15:25 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_if_death(t_philos *philos)
 
 int	reverse_forks(t_philos *philos)
 {
-	usleep(100);
+	usleep(1000);
 	pthread_mutex_lock(philos->second_fork);
 	if (check_if_death(philos) == -1)
 		return (pthread_mutex_unlock(philos->second_fork), -1);
