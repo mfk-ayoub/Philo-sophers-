@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 07:09:45 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/26 02:16:10 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/26 03:47:20 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	check_if_death(t_philos *philos)
 {
+	
 	pthread_mutex_lock(&philos->parmaters->lock_flag);
 	if (!philos->parmaters->flag)
 	{
@@ -24,8 +25,8 @@ int	check_if_death(t_philos *philos)
 	{
 		philos->parmaters->flag = false;
 		pthread_mutex_unlock(&philos->parmaters->lock_flag);
-		printf("%lld %d is died\n", current_time()
-			- philos->parmaters->start_time, philos->index);
+		printf("%lld %d is died\n",current_time() - philos->parmaters->start_time,
+			philos->index);
 		return (-1);
 	}
 	pthread_mutex_unlock(&philos->parmaters->lock_flag);

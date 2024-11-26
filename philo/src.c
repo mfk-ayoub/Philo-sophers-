@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 23:44:56 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/26 02:14:27 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/26 03:47:40 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ void	ft_usleep(long sleeping_time, t_philos *philos)
 	{
 		if (check_if_death(philos) == -1)
 			break ;
-		usleep(100);
+		usleep(sleeping_time/1000);
 	}
 }

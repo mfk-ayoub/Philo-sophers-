@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:09:59 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/26 02:12:32 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/26 03:52:18 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	run_program(t_parmaters *parameters, t_philos *philos)
 	{
 		if (supervisor(philos, parameters->nb_of_philos) == -1)
 			break ;
-		usleep(1000);
 	}
 	i = 0;
 	while (i < parameters->nb_of_philos)
