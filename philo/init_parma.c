@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:09:59 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/23 10:17:00 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/26 02:12:32 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,43 @@ int	start_program(t_parmaters *param, t_philos **philos)
 	return (0);
 }
 
-int	run_program(t_parmaters *parmaters, t_philos *philos)
+int	supervisor(t_philos *philos, int nb_of_philos)
 {
 	int	i;
 
 	i = 0;
-	while (i < parmaters->nb_of_philos)
+	while (i < nb_of_philos)
+	{
+		if (check_if_death(&philos[i]))
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+int	run_program(t_parmaters *parameters, t_philos *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < parameters->nb_of_philos)
 	{
 		if (pthread_create(&philos[i].id, NULL, philos_routine,
 				(void *)&philos[i]))
-			return (write(2, "thread create error\n", 21), -1);
+			return (write(2, "Thread creation error\n", 23), -1);
 		i++;
 	}
+	while (true)
+	{
+		if (supervisor(philos, parameters->nb_of_philos) == -1)
+			break ;
+		usleep(1000);
+	}
 	i = 0;
-	while (i < parmaters->nb_of_philos)
+	while (i < parameters->nb_of_philos)
 	{
 		if (pthread_join(philos[i].id, NULL))
-			return (write(2, "join error\n", 12), -1);
+			return (write(2, "Thread join error\n", 19), -1);
 		i++;
 	}
 	return (0);

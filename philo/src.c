@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 23:44:56 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/24 05:40:42 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/26 02:14:27 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_status(t_philos *philos, char *msg)
 	pthread_mutex_lock(&philos->parmaters->print_status);
 	pthread_mutex_lock(&philos->parmaters->lock_flag);
 	if (philos->parmaters->flag)
-		printf(ORANGE "%lld" RESET " %d %s\n", time_now, philos->index, msg);
+		printf("%lld %d %s\n", time_now, philos->index, msg);
 	pthread_mutex_unlock(&philos->parmaters->print_status);
 	pthread_mutex_unlock(&philos->parmaters->lock_flag);
 }
@@ -42,6 +42,6 @@ void	ft_usleep(long sleeping_time, t_philos *philos)
 	{
 		if (check_if_death(philos) == -1)
 			break ;
-		usleep(sleeping_time / 10000);
+		usleep(100);
 	}
 }

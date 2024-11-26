@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 09:48:01 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/25 04:45:18 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/11/26 02:16:31 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@ void	*one_routine(void *arg)
 	start_time = current_time();
 	philos = (t_philos *)arg;
 	pthread_mutex_lock(philos->first_fork);
-	printf("%lld %d \033[1;33mhas taken a fork\033[0m\n", current_time()
-		- start_time, philos->index);
-	usleep(philos->parmaters->time_to_die * 1000);
-	printf("%lld %d \033[1;31mis died\n\033[0m", current_time() - start_time,
+	printf("%lld %d has taken a fork\n", current_time() - start_time,
 		philos->index);
+	usleep(philos->parmaters->time_to_die * 1000);
+	printf("%lld %d is died\n", current_time() - start_time, philos->index);
 	pthread_mutex_unlock(philos->first_fork);
 	return (NULL);
 }
