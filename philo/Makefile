@@ -6,12 +6,12 @@
 #    By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/27 21:28:48 by ayel-mou          #+#    #+#              #
-#    Updated: 2024/11/24 10:16:49 by ayel-mou         ###   ########.fr        #
+#    Updated: 2024/12/05 02:01:16 by ayel-mou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=cc
-CFLAGS= -Wall -Wextra -Werror -I. #-g3 -fsanitize=thread
+CFLAGS= -Wall -Wextra -Werror -I. -g3 #-fsanitize=thread
 NAME=philo
 SRCDIR=.
 BINDIR=bin

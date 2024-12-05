@@ -6,27 +6,29 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:37:36 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/24 05:20:52 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:48:38 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	kill_program(t_parmaters *parmaters, t_philos *philos)
+void kill_program(t_parmaters *parameters, t_philos *philos)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (i < parmaters->nb_of_philos)
+    while (i < parameters->nb_of_philos)
 	{
-		pthread_mutex_destroy(&parmaters->forks[i]);
+        pthread_mutex_destroy(&parameters->forks[i]);
 		i++;
-	}
-	pthread_mutex_destroy(&parmaters->print_status);
-	pthread_mutex_destroy(&parmaters->lock_flag);
-	free(parmaters->forks);
-	free(philos);
+    }
+    pthread_mutex_destroy(&parameters->print_status);
+    pthread_mutex_destroy(&parameters->lock_flag);
+    pthread_mutex_destroy(&parameters->eat_flag);
+    free(parameters->forks);
+    free(philos);
 }
+
 
 int	main(int ac, char **av)
 {

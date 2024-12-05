@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:24:05 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/24 05:40:30 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/05 03:19:06 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define ORANGE "\033[38;5;214m"
 # define RESET "\033[0m"
-
+typedef struct s_philos t_philos;
 typedef struct parmaters
 {
 	long			nb_of_philos;
@@ -35,6 +35,8 @@ typedef struct parmaters
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_status;
 	pthread_mutex_t	lock_flag;
+	pthread_mutex_t eat_flag;
+	t_philos        *philos;
 	bool			flag;
 
 }					t_parmaters;
@@ -64,5 +66,4 @@ void				*philos_routine(void *arg);
 long long			current_time(void);
 void				print_status(t_philos *philos, char *msg);
 int					one_philo(t_parmaters *parmaters);
-int					check_if_death(t_philos *philos);
 #endif

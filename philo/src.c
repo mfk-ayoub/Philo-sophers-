@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 23:44:56 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/26 03:47:40 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:42:29 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,36 @@ long long	current_time(void)
 	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 }
 
-void	print_status(t_philos *philos, char *msg)
+void print_status(t_philos *philos, char *msg)
 {
-	long long	time_now;
-
+    long long time_now;
+	
 	time_now = current_time() - philos->parmaters->start_time;
-	pthread_mutex_lock(&philos->parmaters->print_status);
-	pthread_mutex_lock(&philos->parmaters->lock_flag);
-	if (philos->parmaters->flag)
-		printf("%lld %d %s\n", time_now, philos->index, msg);
-	pthread_mutex_unlock(&philos->parmaters->print_status);
-	pthread_mutex_unlock(&philos->parmaters->lock_flag);
+    pthread_mutex_lock(&philos->parmaters->print_status);
+    if (philos->parmaters->flag)
+        printf("%lld %d %s\n", time_now, philos->index, msg);
+    pthread_mutex_unlock(&philos->parmaters->print_status);
 }
 
-void	ft_usleep(long sleeping_time, t_philos *philos)
+
+void ft_usleep(long sleeping_time, t_philos *philos)
 {
-	long	start_time;
-
+    long start_time;
+	
 	start_time = current_time();
-	while (current_time() - start_time < sleeping_time)
-	{
-		if (check_if_death(philos) == -1)
-			break ;
-		usleep(sleeping_time/1000);
-	}
+    while (current_time() - start_time < sleeping_time)
+    {
+        pthread_mutex_lock(&philos->parmaters->lock_flag);
+        if (!philos->parmaters->flag)
+        {
+            pthread_mutex_unlock(&philos->parmaters->lock_flag);
+            return;
+        }
+        pthread_mutex_unlock(&philos->parmaters->lock_flag);
+        usleep(100);
+    }
 }
+
+
+
+

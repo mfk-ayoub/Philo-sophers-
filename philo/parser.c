@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 02:10:57 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/11/26 03:51:31 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/05 02:47:21 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,12 @@ int	allocate(t_parmaters *param, t_philos **philos)
 			return (write(2, "mutex error\n", 13), -1);
 		i++;
 	}
-	if (pthread_mutex_init(&param->print_status, NULL))
+	if (pthread_mutex_init(&param->print_status, NULL)
+		|| pthread_mutex_init(&param->lock_flag, NULL)
+		|| pthread_mutex_init(&param->eat_flag, NULL))
+	{
+		(free(param->forks), free(*philos));
 		return (write(2, "mutex error\n", 13), -1);
-	if (pthread_mutex_init(&param->lock_flag, NULL))
-		return (write(2, "mutex error\n", 13), -1);
+	}
 	return (0);
 }
