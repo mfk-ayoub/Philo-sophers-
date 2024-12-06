@@ -5,52 +5,70 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 21:37:36 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/05 02:48:38 by ayel-mou         ###   ########.fr       */
+/*   Created: 2024/12/06 07:02:09 by ayel-mou          #+#    #+#             */
+/*   Updated: 2024/12/06 08:50:54 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void kill_program(t_parmaters *parameters, t_philos *philos)
+void	destroy_all(t_program *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
-    while (i < parameters->nb_of_philos)
+	pthread_mutex_destroy(&data->dead_lock);
+	pthread_mutex_destroy(&data->write_lock);
+	pthread_mutex_destroy(&data->meal_lock);
+	while (i < data->philos[0].num_of_philos)
 	{
-        pthread_mutex_destroy(&parameters->forks[i]);
+		pthread_mutex_destroy(&data->forks[i]);
 		i++;
-    }
-    pthread_mutex_destroy(&parameters->print_status);
-    pthread_mutex_destroy(&parameters->lock_flag);
-    pthread_mutex_destroy(&parameters->eat_flag);
-    free(parameters->forks);
-    free(philos);
+	}
+	if (data->philos)
+		free(data->philos);
+	if (data->philos)
+		free(data->forks);
 }
 
+int	synchronization_start(t_philo *philos, t_program *program)
+{
+	int	i;
+
+	i = -1;
+	while (++i < philos[0].num_of_philos)
+	{
+		if (pthread_create(&philos[i].thread, NULL, routine, &philos[i]))
+			return (destroy_all(program), 0);
+	}
+	monitoring(program);
+	i = -1;
+	while (++i < philos[0].num_of_philos)
+	{
+		if (pthread_join(philos[i].thread, NULL))
+			return (destroy_all(program), 0);
+	}
+	destroy_all(program);
+	return (0);
+}
 
 int	main(int ac, char **av)
 {
-	t_parmaters	parmaters;
-	t_philos	*philos;
+	t_philo		*philos;
+	t_program	program;
 
 	philos = NULL;
 	if (ac == 5 || ac == 6)
 	{
 		if (check_parmaters(ac, av) == -1)
-			return (write(2, "parmaters not valid\n", 21), 1);
-		init_parmaters(&parmaters, ac, av);
-		if (parmaters.nb_of_philos == 1)
-			return (one_philo(&parmaters));
-		if (start_program(&parmaters, &philos) == -1)
+			return (write(2, "Parameters not valid\n", 21), -1);
+		init_program(av, &program, &philos);
+		init_philos(philos, av, &program);
+		program.philos = philos;
+		if (synchronization_start(philos, &program) == -1)
 			return (1);
-		if (run_program(&parmaters, philos) == -1)
-			return (kill_program(&parmaters, philos), -1);
-		kill_program(&parmaters, philos);
-		return (0);
 	}
 	else
-		return (write(2, "parmaters not valid\n", 21), 1);
+		return (write(2, "Parameters not valid\n", 21), -1);
 	return (0);
 }

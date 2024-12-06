@@ -1,16 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 02:10:57 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/05 02:47:21 by ayel-mou         ###   ########.fr       */
+/*   Created: 2024/12/06 07:02:21 by ayel-mou          #+#    #+#             */
+/*   Updated: 2024/12/06 07:05:50 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_isdigit(int index)
+{
+	if ('0' <= index && '9' >= index)
+		return (1);
+	return (0);
+}
+
+static bool	is_space(char c)
+{
+	char	*str;
+
+	str = "\t\n\v\f\r ";
+	while (*str)
+	{
+		if (*str == c)
+			return (true);
+		str++;
+	}
+	return (false);
+}
+
+long long	ft_atoi(char *str)
+{
+	long long	ans;
+	long long	result;
+
+	if (!str)
+		return (-1);
+	ans = 0;
+	result = 1;
+	while (is_space(*str))
+		str++;
+	if (*str == '-')
+		result *= -1;
+	if (*str == '+' || *str == '-')
+		str++;
+	while (*str)
+	{
+		ans = (ans * 10) + (*str - '0');
+		str++;
+	}
+	if (ans >= INT_MAX)
+		return (-1);
+	return (result * ans);
+}
 
 int	ft_all_isdigit(char *data)
 {
@@ -43,34 +89,6 @@ int	check_parmaters(int ac, char **av)
 		if (ft_all_isdigit(av[i]) == -1 || ft_atoi(av[i]) == -1)
 			return (-1);
 		i++;
-	}
-	return (0);
-}
-
-int	allocate(t_parmaters *param, t_philos **philos)
-{
-	int	i;
-
-	i = 0;
-	*philos = (t_philos *)malloc(sizeof(t_philos) * param->nb_of_philos);
-	if (!*philos)
-		return (-1);
-	param->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
-			* (param->nb_of_philos));
-	if (!param->forks)
-		return (free(*philos), -1);
-	while (i < param->nb_of_philos)
-	{
-		if (pthread_mutex_init(&param->forks[i], NULL))
-			return (write(2, "mutex error\n", 13), -1);
-		i++;
-	}
-	if (pthread_mutex_init(&param->print_status, NULL)
-		|| pthread_mutex_init(&param->lock_flag, NULL)
-		|| pthread_mutex_init(&param->eat_flag, NULL))
-	{
-		(free(param->forks), free(*philos));
-		return (write(2, "mutex error\n", 13), -1);
 	}
 	return (0);
 }

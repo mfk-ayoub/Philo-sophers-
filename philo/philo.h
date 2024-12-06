@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 21:24:05 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/05 03:19:06 by ayel-mou         ###   ########.fr       */
+/*   Created: 2024/12/06 07:03:32 by ayel-mou          #+#    #+#             */
+/*   Updated: 2024/12/06 08:48:22 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,49 +21,51 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define ORANGE "\033[38;5;214m"
-# define RESET "\033[0m"
-typedef struct s_philos t_philos;
-typedef struct parmaters
+typedef struct s_philo
 {
-	long			nb_of_philos;
-	long			time_to_die;
-	long			time_to_sleep;
-	long			time_to_eat;
-	long			nb_of_meals;
-	long long		start_time;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	print_status;
-	pthread_mutex_t	lock_flag;
-	pthread_mutex_t eat_flag;
-	t_philos        *philos;
-	bool			flag;
-
-}					t_parmaters;
-
-typedef struct s_philos
-{
-	int				index;
-	int				meals_eat;
-	long long		last_meal;
-	pthread_t		id;
+	pthread_t		thread;
+	int				id;
+	int				eating;
+	int				max_meals;
+	int				meals_eaten;
+	size_t			last_meal;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	size_t			start_time;
+	int				num_of_philos;
+	int				num_times_to_eat;
+	int				*dead;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
-	t_parmaters		*parmaters;
+	pthread_mutex_t	*write_lock;
+	pthread_mutex_t	*dead_lock;
+	pthread_mutex_t	*meal_lock;
+}					t_philo;
 
-}					t_philos;
+typedef struct s_program
+{
+	int				dead_flag;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	write_lock;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+}					t_program;
 
-void				ft_usleep(long sleeping_time, t_philos *philos);
-int					ft_isdigit(int index);
+size_t				current_time(void);
+void				ft_usleep(int n);
 long long			ft_atoi(char *str);
+void				init_program(char **av, t_program *pro, t_philo **philos);
+void				init_philos(t_philo *philos, char **argv,
+						t_program *program);
+void				*routine(void *ph);
+int					monitoring(t_program *data);
+void				write_message(t_philo *philo, char *msg);
+int					check_death(t_philo *philo);
+int					check_all_ates(t_philo *philos);
+void				update_flag(t_program *data, int i, int dead);
+void				destroy_all(t_program *data);
 int					check_parmaters(int ac, char **av);
-void				init_parmaters(t_parmaters *parmaters, int ac, char **av);
-int					start_program(t_parmaters *parmaters, t_philos **philos);
-int					allocate(t_parmaters *parmaters, t_philos **philos);
-int					run_program(t_parmaters *parmaters, t_philos *philos);
-int					run_program(t_parmaters *parmaters, t_philos *philos);
-void				*philos_routine(void *arg);
-long long			current_time(void);
-void				print_status(t_philos *philos, char *msg);
-int					one_philo(t_parmaters *parmaters);
+
 #endif
