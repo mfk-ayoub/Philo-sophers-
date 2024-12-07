@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:03:38 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/06 08:47:31 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 07:11:13 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,29 @@ void	write_message(t_philo *philo, char *msg)
 	pthread_mutex_unlock(philo->write_lock);
 }
 
+void	take_forks(t_philo *philos)
+{
+	if (philos->id % 2 == 1)
+	{
+		usleep(100);
+		pthread_mutex_lock(philos->second_fork);
+		write_message(philos, "has taken a fork");
+		usleep(50);
+		pthread_mutex_lock(philos->first_fork);
+		write_message(philos, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philos->first_fork);
+		write_message(philos, "has taken a fork");
+		pthread_mutex_lock(philos->second_fork);
+		write_message(philos, "has taken a fork");
+	}
+}
+
 void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->first_fork);
-	write_message(philo, "has taken a fork");
-	pthread_mutex_lock(philo->second_fork);
-	write_message(philo, "has taken a fork");
+	take_forks(philo);
 	write_message(philo, "is eating");
 	pthread_mutex_lock(philo->meal_lock);
 	philo->eating = 1;
@@ -60,8 +77,6 @@ void	*routine(void *ph)
 			ft_usleep(100);
 		return (0);
 	}
-	if (philo->id % 2 == 0)
-		ft_usleep(100);
 	while (!check_death(philo))
 	{
 		eat(philo);

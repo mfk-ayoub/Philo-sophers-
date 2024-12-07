@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:02:09 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/06 08:50:54 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 07:10:09 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ int	main(int ac, char **av)
 	{
 		if (check_parmaters(ac, av) == -1)
 			return (write(2, "Parameters not valid\n", 21), -1);
+		if (ft_atoi(av[1]) == 1)
+		{
+			if (one_philo(&program, av))
+				return (1);
+			return (0);
+		}
 		init_program(av, &program, &philos);
 		init_philos(philos, av, &program);
 		program.philos = philos;

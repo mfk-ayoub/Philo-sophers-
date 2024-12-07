@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:03:32 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/06 08:48:22 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 07:03:33 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ int					check_all_ates(t_philo *philos);
 void				update_flag(t_program *data, int i, int dead);
 void				destroy_all(t_program *data);
 int					check_parmaters(int ac, char **av);
+int					one_philo(t_program *program, char **av);
 
 #endif

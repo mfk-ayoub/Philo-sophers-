@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:01:59 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/06 08:49:52 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 06:41:28 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ void	init_philos(t_philo *philos, char **argv, t_program *program)
 		philos[i].id = i + 1;
 		philos[i].dead = &program->dead_flag;
 		philos[i].first_fork = &program->forks[i];
-		if (i == 0)
-			philos[i].second_fork = &program->forks[philos[i].num_of_philos
-				- 1];
-		else
-			philos[i].second_fork = &program->forks[i - 1];
+		philos[i].second_fork = &program->forks[(i + 1)
+			% philos[i].num_of_philos];
 		philos[i].write_lock = &program->write_lock;
 		philos[i].dead_lock = &program->dead_lock;
 		philos[i].meal_lock = &program->meal_lock;

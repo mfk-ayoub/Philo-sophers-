@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:02:17 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/06 08:48:09 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 07:00:09 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_all_ates(t_philo *philos)
 void	update_flag(t_program *data, int i, int dead)
 {
 	if (dead)
-		write_message(&data->philos[i], "died");
+		write_message(&data->philos[i], "is died");
 	pthread_mutex_lock(data->philos[i].dead_lock);
 	data->dead_flag = 1;
 	pthread_mutex_unlock(data->philos[i].dead_lock);
