@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:03:32 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/07 07:03:33 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 07:13:12 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ size_t				current_time(void);
 void				ft_usleep(int n);
 long long			ft_atoi(char *str);
 void				init_program(char **av, t_program *pro, t_philo **philos);
-void				init_philos(t_philo *philos, char **argv,
-						t_program *program);
+void				init_philos(t_philo *philos, char **av, t_program *program);
 void				*routine(void *ph);
 int					monitoring(t_program *data);
 void				write_message(t_philo *philo, char *msg);

@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:01:59 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/07 06:41:28 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 07:12:57 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,18 @@ void	init_program(char **av, t_program *pro, t_philo **philos)
 	}
 }
 
-void	init_philos(t_philo *philos, char **argv, t_program *program)
+void	init_philos(t_philo *philos, char **av, t_program *program)
 {
 	int	i;
 
 	i = -1;
-	while (++i < ft_atoi(argv[1]))
+	while (++i < ft_atoi(av[1]))
 	{
-		philos[i].num_of_philos = ft_atoi(argv[1]);
-		philos[i].time_to_die = ft_atoi(argv[2]);
-		philos[i].time_to_eat = ft_atoi(argv[3]);
-		philos[i].time_to_sleep = ft_atoi(argv[4]);
-		philos[i].max_meals = ft_atoi(argv[5]);
+		philos[i].num_of_philos = ft_atoi(av[1]);
+		philos[i].time_to_die = ft_atoi(av[2]);
+		philos[i].time_to_eat = ft_atoi(av[3]);
+		philos[i].time_to_sleep = ft_atoi(av[4]);
+		philos[i].max_meals = ft_atoi(av[5]);
 		philos[i].start_time = current_time();
 		philos[i].last_meal = current_time();
 		philos[i].meals_eaten = 0;

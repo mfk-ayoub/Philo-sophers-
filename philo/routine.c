@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:03:38 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/07 07:11:13 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/07 07:12:02 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,6 @@ void	*routine(void *ph)
 	t_philo	*philo;
 
 	philo = (t_philo *)ph;
-	if (philo->num_of_philos == 1)
-	{
-		write_message(philo, "has taken a fork");
-		while (!check_death(philo))
-			ft_usleep(100);
-		return (0);
-	}
 	while (!check_death(philo))
 	{
 		eat(philo);
