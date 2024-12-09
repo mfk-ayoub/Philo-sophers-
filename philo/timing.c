@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:03:53 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/06 07:03:56 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/09 09:55:30 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ size_t	current_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	ft_usleep(int n)
+void	ft_usleep(int n, t_philo *philo)
 {
 	size_t	time;
 
 	time = current_time();
 	while (time + n > current_time())
+	{
+		if (check_death(philo))
+			break ;
 		usleep(500);
+	}
 }

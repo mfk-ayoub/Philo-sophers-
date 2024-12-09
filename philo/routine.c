@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:03:38 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/07 07:12:02 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/09 09:54:13 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	eat(t_philo *philo)
 	philo->meals_eaten++;
 	philo->eating = 0;
 	pthread_mutex_unlock(philo->meal_lock);
-	ft_usleep(philo->time_to_eat);
+	ft_usleep(philo->time_to_eat, philo);
 	pthread_mutex_unlock(philo->second_fork);
 	pthread_mutex_unlock(philo->first_fork);
 }
@@ -74,7 +74,7 @@ void	*routine(void *ph)
 	{
 		eat(philo);
 		write_message(philo, "is sleeping");
-		ft_usleep(philo->time_to_sleep);
+		ft_usleep(philo->time_to_sleep, philo);
 		write_message(philo, "is thinking");
 	}
 	return (0);

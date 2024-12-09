@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:03:32 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/07 07:13:12 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/09 09:55:05 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_program
 }					t_program;
 
 size_t				current_time(void);
-void				ft_usleep(int n);
+void				ft_usleep(int n, t_philo *philo);
 long long			ft_atoi(char *str);
 void				init_program(char **av, t_program *pro, t_philo **philos);
 void				init_philos(t_philo *philos, char **av, t_program *program);
