@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:02:21 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/06 07:05:50 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:32:35 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isdigit(int index)
 {
-	if ('0' <= index && '9' >= index)
+	if ('0' <= index && index <= '9')
 		return (1);
 	return (0);
 }
@@ -50,6 +50,8 @@ long long	ft_atoi(char *str)
 		str++;
 	while (*str)
 	{
+		if (!ft_isdigit(*str))
+			return (-1);
 		ans = (ans * 10) + (*str - '0');
 		str++;
 	}
@@ -65,10 +67,11 @@ int	ft_all_isdigit(char *data)
 	i = 0;
 	if (!data)
 		return (-1);
-	if (data[0] == '-' || data[0] == '+')
+	if (data[0] == '+' || data[0] == '-')
 	{
-		if (!data[1])
+		if ((data[0] == '-' || data[0] == '+') && !data[1])
 			return (-1);
+		i++;
 	}
 	while (data[i])
 	{
