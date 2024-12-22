@@ -6,7 +6,7 @@
 /*   By: ayel-mou <ayel-mou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 07:02:21 by ayel-mou          #+#    #+#             */
-/*   Updated: 2024/12/10 11:32:35 by ayel-mou         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:15:00 by ayel-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int	ft_all_isdigit(char *data)
 	{
 		if ((data[0] == '-' || data[0] == '+') && !data[1])
 			return (-1);
+		if ((data[0] == '-' || data[0] == '+') && data[1])
+		{
+			if (data[0] == '-')
+				return (-1);
+		}
 		i++;
 	}
 	while (data[i])
